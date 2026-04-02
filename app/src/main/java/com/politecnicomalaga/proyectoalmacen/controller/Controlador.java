@@ -1,5 +1,5 @@
-package controller;
-import model.*;
+package com.politecnicomalaga.proyectoalmacen.controller;
+import com.politecnicomalaga.proyectoalmacen.model.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -22,8 +22,8 @@ public class Controlador
      */
     private Controlador()
     {
-        this.misProductos = DataAccess.loadData(); //Inicializamos los productos con el dataAcces, en lugar de vacio
-        this.productosRetirados = new ArrayList<>(); //Los productos retirados si vacios.
+        this.misProductos = new ArrayList<>();
+        this.productosRetirados =  new ArrayList<>();
     }
     //Instanciamos el contraolador
     public static Controlador getSingleton(){
@@ -31,12 +31,12 @@ public class Controlador
         return singleton;
     }
     //Añadir productos
-    public boolean addProducto(String productoCSV) {
-        Producto p = Producto.cargarDesdeCSVPlus(productoCSV); //Delegamos la tarea de parsear al modelo
+    public boolean addProducto(String producto) {
+        Producto p = Producto.cargarDatos(producto); //Delegamos la tarea de parsear al modelo
         return insertarProducto(p);
     }   
-    public boolean addProductoPerecedero(String productoCSV) {
-        Producto p = ProductoPerecedero.cargarDesdeCSVPlus(productoCSV); //Delegamos la tarea de parsear al modelo
+    public boolean addProductoPerecedero(String producto) {
+        Producto p = ProductoPerecedero.cargarDatos(producto); //Delegamos la tarea de cargar datos
         return insertarProducto(p);
     }   
     private boolean insertarProducto(Producto p) { //Bucle de inserción

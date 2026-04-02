@@ -1,28 +1,39 @@
-package model;
-import java.util.Comparator;
+package com.politecnicomalaga.proyectoalmacen.model;
+import androidx.annotation.NonNull;
 
-//Clase producto
+import com.google.gson.Gson;
+
+/**
+ * Class Producto.
+ *
+ * Representa el elemento padre en nuestro sistema de almacén
+ * Utilizamos Gson para la gestión de los datos
+ *
+ * @author Andrés Gorea Olari, Politecnico Málaga
+ * @version abril (2026)
+ *
+ */
 
 public class Producto implements Comparable<Producto>{
     //Atributos
+    private final String clase = "Producto";
     private String codigoProducto;
     private String descripcion;
     private double precio;
     private int stock;
-    
+    private static final Gson gson = new Gson();
+
     // Constructor
     public Producto(String codigoProducto, String descripcion, double precio, int stock) {
         setCodigoProducto(codigoProducto); // Usamos el setter para validar
         this.descripcion = descripcion;
         setPrecio(precio); // Usamos el setter para validar
-        
-        if (precio > 0){
-            this.precio = precio;
-        } else this.precio =-precio;
         setStock(stock); // Usamos el setter para validar
     }
 
     // Getters y Setters
+
+    //Código
     public String getCodigoProducto() {
         return codigoProducto;
     }
@@ -44,9 +55,7 @@ public class Producto implements Comparable<Producto>{
     public double getPrecio() {
         return precio;
     }
-    public void setPrecio(double precio) { 
-        if (precio>=0.0) this.precio = precio; //No podemos tener precios negativos
-        
+    public void setPrecio(double precio) {
         this.precio = (precio > 0.0) ? precio : - precio;
     }
     //Stock
@@ -62,53 +71,29 @@ public class Producto implements Comparable<Producto>{
         if (this.stock + newStock < 0) return; //nunca tenemos stock negativo
         this.stock += newStock;  //si newStock es negativo, se quita al almacén unidades del producto
     }
-    
-    // Mostrar la información del producto. CSV Plus
-    @Override
-    public String toString() {
-        return "Clase=" + getClase() + ";" + //Para que en el Super de subclases no nos diga que es un prodcuto si no la clase que es.
-                "codigoProducto=" + codigoProducto + ";" +
-                "descripcion=" + descripcion + ";" +
-                "precio=" + precio + ";" +
-                "stock=" + stock;
-    }
-    public String getClase() { //Las subclases sobreescriben este método para identificar que tipo de clase son en el toString 
-        return "Producto";
-    }
-    
-    //Para obtener si esta caduca o no, nunca caducan asi que false siempre
+
+    //Para obtener si está caducado, estos productos no caducan asi que siempre false, y no necesitamos el atributo con la clase es suficiente.
     public boolean getCaducado(){
         return false; 
     }
 
-    //Importación de datos a local desde siguiendo las reglas de nuestro CSVPlus 
-    public static Producto cargarDesdeCSVPlus(String data) {
-        //Nos llegan las lineas de datos de tipo Producto
-        String[] campos = data.split(";");
-        
-        //Spliteamos por "=" y nos quedamos con el segundo campo el primero no nos interesa.
-        //,2 splitea en solo 2 partes dividiendo por el primer = que encuentre, 
-        // es decir si hay un = por lo que sea en algun sitio por ejemplo la descripción USB=C, no splitea ni rompe nada
-        String[] campoCodigo = campos[1].split("=", 2); 
-        String codigoProducto = campoCodigo[1];
-        
-        String[] campoDescripcion = campos[2].split("=", 2);
-        String descripcion = campoDescripcion[1];
-        
-        String[] campoPrecio = campos[3].split("=", 2);
-        double precio = Double.parseDouble(campoPrecio[1]);
-        
-        String[] campoStock = campos[4].split("=", 2);
-        int stock = Integer.parseInt(campoStock[1]);
-        
-        return new Producto(codigoProducto, descripcion, precio, stock);
-    }
-    
     @Override
-    public int compareTo(Producto otro){ // Ordenacion por descripcion
+    public int compareTo(@NonNull Producto otro){ // Ordenación por descripcion por defecto
         String producto = this.getDescripcion();
         String otroProducto = otro.getDescripcion();
-        
+
         return producto.compareTo(otroProducto);
+    }
+
+    // Mostrar la información del producto. Json
+    @NonNull
+    @Override
+    public String toString() {
+        return gson.toJson(this);
+    }
+
+    //Importación de datos a local
+    public static Producto cargarDatos(String data) {
+        return gson.fromJson(data, Producto.class);
     }
 }

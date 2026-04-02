@@ -1,4 +1,4 @@
-package model;
+package com.politecnicomalaga.proyectoalmacen.model;
 import java.util.Comparator;
 
 /**

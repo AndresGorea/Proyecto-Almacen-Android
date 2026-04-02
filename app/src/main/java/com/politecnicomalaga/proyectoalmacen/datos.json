@@ -1,0 +1,115 @@
+[
+  {
+    "clase": "ProductoPerecedero",
+    "codigoProducto": "ALIM-20260001",
+    "descripcion": "Leche Entera 1L",
+    "precio": 1.20,
+    "stock": 100,
+    "fechaCaducidad": "20260820"
+  },
+  {
+    "clase": "Producto",
+    "codigoProducto": "COMP-99887766",
+    "descripcion": "Procesador Octa-Core 4.2GHz",
+    "precio": 299.00,
+    "stock": 10
+  },
+  {
+    "clase": "ProductoPerecedero",
+    "codigoProducto": "ALIM-20260002",
+    "descripcion": "Yogur Griego Natural",
+    "precio": 2.50,
+    "stock": 45,
+    "fechaCaducidad": "20260515"
+  },
+  {
+    "clase": "Producto",
+    "codigoProducto": "PERI-11223344",
+    "descripcion": "Teclado Mecánico RGB",
+    "precio": 89.99,
+    "stock": 15
+  },
+  {
+    "clase": "ProductoPerecedero",
+    "codigoProducto": "ALIM-20260003",
+    "descripcion": "Salmón Ahumado 200g",
+    "precio": 8.75,
+    "stock": 20,
+    "fechaCaducidad": "20260430"
+  },
+  {
+    "clase": "Producto",
+    "codigoProducto": "MONI-44332211",
+    "descripcion": "Monitor 27 Pulgadas 4K",
+    "precio": 320.00,
+    "stock": 8
+  },
+  {
+    "clase": "ProductoPerecedero",
+    "codigoProducto": "ALIM-20260004",
+    "descripcion": "Queso Fresco Cabra",
+    "precio": 4.20,
+    "stock": 15,
+    "fechaCaducidad": "20260410"
+  },
+  {
+    "clase": "Producto",
+    "codigoProducto": "ALMA-55667788",
+    "descripcion": "Disco SSD NVMe 1TB",
+    "precio": 110.50,
+    "stock": 25
+  },
+  {
+    "clase": "ProductoPerecedero",
+    "codigoProducto": "ALIM-20260005",
+    "descripcion": "Zumo de Naranja Pack 3",
+    "precio": 3.99,
+    "stock": 60,
+    "fechaCaducidad": "20260601"
+  },
+  {
+    "clase": "Producto",
+    "codigoProducto": "AUDI-99001122",
+    "descripcion": "Auriculares Cancelación Ruido",
+    "precio": 125.00,
+    "stock": 12
+  },
+  {
+    "clase": "ProductoPerecedero",
+    "codigoProducto": "ALIM-20260006",
+    "descripcion": "Pechuga de Pavo 250g",
+    "precio": 3.45,
+    "stock": 30,
+    "fechaCaducidad": "20260415"
+  },
+  {
+    "clase": "Producto",
+    "codigoProducto": "GAMI-12345678",
+    "descripcion": "Silla Gaming Ergonómica",
+    "precio": 240.00,
+    "stock": 6
+  },
+  {
+    "clase": "ProductoPerecedero",
+    "codigoProducto": "ALIM-20260007",
+    "descripcion": "Hummus de Garbanzos",
+    "precio": 1.80,
+    "stock": 22,
+    "fechaCaducidad": "20260425"
+  },
+  {
+    "clase": "Producto",
+    "codigoProducto": "WEBC-11224455",
+    "descripcion": "Webcam 4K Streaming",
+    "precio": 85.00,
+    "stock": 18
+  },
+  {
+    "clase": "ProductoPerecedero",
+    "codigoProducto": "ALIM-20260008",
+    "descripcion": "Mantequilla con Sal",
+    "precio": 2.15,
+    "stock": 40,
+    "fechaCaducidad": "20260912"
+  }
+]

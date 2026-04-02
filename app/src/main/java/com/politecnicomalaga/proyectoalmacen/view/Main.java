@@ -1,6 +1,6 @@
-package view;
+package com.politecnicomalaga.proyectoalmacen.view;
 import java.util.Scanner;
-import controller.*;
+import com.politecnicomalaga.proyectoalmacen.controller.*;
 
 
 /**
