@@ -20,13 +20,13 @@ import com.google.gson.Gson;
 public class ProductoPerecedero extends Producto
 {
     //Atributos
-    private final String clase = "ProductoPerecedero";
     private String fechaCaducidad; // Formato "AAAAMMDD" según enunciado
     private static final Gson gson = new Gson();
     
     //Constructor
     public ProductoPerecedero(String codigoProducto, String descripcion, double precio, int stock, String fechaCaducidad) {
         super(codigoProducto, descripcion, precio, stock);
+        this.clase = "ProductoPerecedero";
         this.fechaCaducidad = fechaCaducidad;
     }
     
@@ -42,11 +42,6 @@ public class ProductoPerecedero extends Producto
     @Override
     public boolean getCaducado() { //Usaremos la fecha de nuestro sistema
         String hoy = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")); //Obtenemos la fecha con nuestro formato
-        return this.fechaCaducidad.compareTo(hoy) < 0; //Si fecha hoy mayor, negativo false, else positivo true
-    }
-
-    //Importación de datos a local
-    public static Producto cargarDatos(String data) {
-        return gson.fromJson(data, ProductoPerecedero.class);
+        return this.fechaCaducidad.compareTo(hoy) < 0; //Si fecha hoy mayor, negativo false, else 0 o positivo true
     }
 }

@@ -2,6 +2,7 @@ package com.politecnicomalaga.proyectoalmacen.model;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 /**
  * Class Producto.
@@ -16,12 +17,13 @@ import com.google.gson.Gson;
 
 public class Producto implements Comparable<Producto>{
     //Atributos
-    private final String clase = "Producto";
+    protected String clase = "Producto";
     private String codigoProducto;
     private String descripcion;
     private double precio;
     private int stock;
-    private static final Gson gson = new Gson();
+    protected static final Gson gson = new Gson();
+    protected static final JsonObject jsonObject = new JsonObject();
 
     // Constructor
     public Producto(String codigoProducto, String descripcion, double precio, int stock) {
@@ -94,6 +96,17 @@ public class Producto implements Comparable<Producto>{
 
     //Importación de datos a local
     public static Producto cargarDatos(String data) {
+        return gson.fromJson(data, Producto.class);
+    }
+
+    public static Producto cargarDatos2(String data) {
+        JsonObject jsonBusqueda = gson.fromJson(data, JsonObject.class); //Convertimos a un objeto json
+
+        String tipo = jsonBusqueda.get("clase").getAsString(); //Buscamos el valor el tipo de producto en la etiqueta clase
+
+        if (tipo.equals("ProductoPerecedero")) {
+            return gson.fromJson(data, ProductoPerecedero.class);
+        }
         return gson.fromJson(data, Producto.class);
     }
 }
