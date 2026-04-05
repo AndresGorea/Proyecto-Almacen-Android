@@ -96,10 +96,6 @@ public class Producto implements Comparable<Producto>{
 
     //Importación de datos a local
     public static Producto cargarDatos(String data) {
-        return gson.fromJson(data, Producto.class);
-    }
-
-    public static Producto cargarDatos2(String data) {
         JsonObject jsonBusqueda = gson.fromJson(data, JsonObject.class); //Convertimos a un objeto json
 
         String tipo = jsonBusqueda.get("clase").getAsString(); //Buscamos el valor el tipo de producto en la etiqueta clase

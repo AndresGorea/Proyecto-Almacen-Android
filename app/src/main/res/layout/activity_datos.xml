@@ -5,84 +5,57 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.DatosActivity">
 
     <TextView
-        android:id="@+id/tvTitulo"
+        android:id="@+id/tvTituloDatos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gestión del Almacen"
-
+        android:text="Gestión de Datos JSON"
         android:textSize="26sp"
         android:textStyle="bold"
-
         android:layout_marginBottom="20dp"
-
         app:layout_constraintVertical_chainStyle="packed"
-
-        app:layout_constraintBottom_toTopOf="@+id/btAnadir"
+        app:layout_constraintBottom_toTopOf="@+id/btImportar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btAnadir"
+        android:id="@+id/btImportar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Añadir Producto"
-
+        android:text="Importar Datos"
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/btModificar"
+        app:layout_constraintBottom_toTopOf="@+id/btExportar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitulo"
-
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tvTituloDatos" />
 
     <Button
-        android:id="@+id/btModificar"
+        android:id="@+id/btExportar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Modificar Producto"
-
+        android:text="Exportar Datos"
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/btListar"
+        app:layout_constraintBottom_toTopOf="@+id/btVolverDatos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btAnadir" />
-
-    <Button
-        android:id="@+id/btListar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Listar Productos"
-
-        app:layout_constraintWidth_percent="0.7"
-        app:cornerRadius="10dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/btGestionarDatos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btModificar" />
+        app:layout_constraintTop_toBottomOf="@+id/btImportar" />
 
     <Button
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:id="@+id/btGestionarDatos"
-
+        android:id="@+id/btVolverDatos"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Importar / Exportar Datos JSON"
-
+        android:text="Volver"
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btListar" />
+        app:layout_constraintTop_toBottomOf="@+id/btExportar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

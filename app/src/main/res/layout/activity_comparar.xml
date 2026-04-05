@@ -5,84 +5,69 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.CompararActivity">
 
     <TextView
-        android:id="@+id/tvTitulo"
+        android:id="@+id/tvTituloComparar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gestión del Almacen"
-
+        android:text="Comparar Productos"
         android:textSize="26sp"
         android:textStyle="bold"
-
         android:layout_marginBottom="20dp"
-
         app:layout_constraintVertical_chainStyle="packed"
-
-        app:layout_constraintBottom_toTopOf="@+id/btAnadir"
+        app:layout_constraintBottom_toTopOf="@+id/etCodigo1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btAnadir"
+    <EditText
+        android:id="@+id/etCodigo1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Añadir Producto"
-
+        android:hint="Código Producto 1"
+        android:inputType="text"
         app:layout_constraintWidth_percent="0.7"
-        app:cornerRadius="10dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/btModificar"
+        app:layout_constraintBottom_toTopOf="@+id/etCodigo2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitulo"
+        app:layout_constraintTop_toBottomOf="@+id/tvTituloComparar" />
 
-        />
-
-    <Button
-        android:id="@+id/btModificar"
+    <EditText
+        android:id="@+id/etCodigo2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Modificar Producto"
-
+        android:hint="Código Producto 2"
+        android:inputType="text"
         app:layout_constraintWidth_percent="0.7"
-        app:cornerRadius="10dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/btListar"
+        app:layout_constraintBottom_toTopOf="@+id/btCompararAccion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btAnadir" />
+        app:layout_constraintTop_toBottomOf="@+id/etCodigo1" />
 
     <Button
-        android:id="@+id/btListar"
+        android:id="@+id/btCompararAccion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Listar Productos"
-
+        android:text="Comparar"
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/btGestionarDatos"
+        app:layout_constraintBottom_toTopOf="@+id/btVolverComparar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btModificar" />
+        app:layout_constraintTop_toBottomOf="@+id/etCodigo2" />
 
     <Button
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:id="@+id/btGestionarDatos"
-
+        android:id="@+id/btVolverComparar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Importar / Exportar Datos JSON"
-
+        android:text="Volver"
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btListar" />
+        app:layout_constraintTop_toBottomOf="@+id/btCompararAccion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

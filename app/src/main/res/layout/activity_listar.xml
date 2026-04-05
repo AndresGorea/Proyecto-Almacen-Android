@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.ListarActivity">
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Listar Productos"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@+id/btListarTodos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btListarTodos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Todos los productos"
+        app:layout_constraintWidth_percent="0.7"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btListarSinStock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
+
+    <Button
+        android:id="@+id/btListarSinStock"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Sin Stock"
+        app:layout_constraintWidth_percent="0.7"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btListarCaducados"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btListarTodos" />
+
+    <Button
+        android:id="@+id/btListarCaducados"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Caducados"
+        app:layout_constraintWidth_percent="0.7"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btListarRango"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btListarSinStock" />
+
+    <Button
+        android:id="@+id/btListarRango"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Por Rango de Precio"
+        app:layout_constraintWidth_percent="0.7"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btListarRetirados"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btListarCaducados" />
+
+    <Button
+        android:id="@+id/btListarRetirados"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Retirados"
+        app:layout_constraintWidth_percent="0.7"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btComparar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btListarRango" />
+
+    <Button
+        android:id="@+id/btComparar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Comparar Productos"
+        app:layout_constraintWidth_percent="0.7"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btVolverListar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btListarRetirados" />
+
+    <Button
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:id="@+id/btVolverListar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Volver"
+        app:layout_constraintWidth_percent="0.7"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btComparar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
