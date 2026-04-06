@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -90,9 +91,21 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btListar).setOnClickListener(v-> menuListar());
         findViewById(R.id.btGestionarDatos).setOnClickListener(v -> menuGestionarDatos());
     }
-    public void menuAnadir(){
+
+    public void gestionarFormularios(boolean esModificacion, String codigoRecibido) {
         setContentView(R.layout.activity_anadir); //Mostramos el activity correspondiente
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
+
+        if (esModificacion){ //Si es uin modificación usamos la misma plantilla cambiando alunos datos
+            ((TextView) findViewById(R.id.tvTitulo)).setText("Modificar Producto");
+            ((Button) findViewById(R.id.btAnadir)).setText("Guardar Cambios");
+
+            EditText etCodigo = findViewById(R.id.etCodigo);
+            etCodigo.setText(codigoRecibido); // Rellenamos el código automáticamente
+            etCodigo.setEnabled(false); // bloqueamos el campo para no poder tocar el código.
+
+            findViewById(R.id.btVolver).setOnClickListener(v -> menuModificar()); // Que vuelva al menú de modificar
+        }
 
         ///Mostramos las opciones para el spinner
         ArrayAdapter<TipoProducto> adapter = new ArrayAdapter<>( // Arrayadapter coge una colección de datos y le pasa cada dato a un list view o spinner para que lo muestren
@@ -124,9 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
         /// Almacenamos los datos al pulsar el botón
-
 
         findViewById(R.id.btAnadir).setOnClickListener(v -> {
             try {
@@ -157,15 +168,21 @@ public class MainActivity extends AppCompatActivity {
                         atributos.put("fecha", fecha);
                         break;
                 }
-
                 //Guardamos los datos con el mapa de datosProducto que el ID sea codigo producto
                 datosProducto.put(codigo, atributos);
 
-                if (c.addProducto(datosProducto)){ // Le pasamos los dátos al controlador
-                    String resultado = ("Producto añadido con éxito");
-                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
-                };
-
+                if (esModificacion){ //Si es una modificación
+                    if (c.modificarProducto(datosProducto)){ // Le pasamos los dátos al controlador
+                        String resultado = ("Producto módificado con éxito");
+                        ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
+                    };
+                }
+                else {
+                    if (c.addProducto(datosProducto)){ // Le pasamos los dátos al controlador
+                        String resultado = ("Producto añadido con éxito");
+                        ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
+                    };
+                }
             }
             catch (IllegalArgumentException iae) {
                 String resultado = ("Error de validación: " + iae.getMessage());
@@ -176,15 +193,103 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
             }
             catch (Exception e) {
-                String resultado = "Error Desconocido";
+                String resultado = "Error: " + e.getMessage();
                 ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
             }
         });
     }
+
+    public void menuAnadir(){
+        gestionarFormularios(false, null);
+    }
+
+    public void menuModificarDatos(String codigo) {
+        gestionarFormularios(true, codigo);
+    }
+
     public void menuModificar(){
         setContentView(R.layout.activity_modificar); //Mostramos el activity correspondiente
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
+
+
+        findViewById(R.id.btModificarDatos).setOnClickListener(v -> { //Modificar varios datos de un producto
+            String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
+            menuModificarDatos(codigo);
+        });
+
+        findViewById(R.id.btModificarStock).setOnClickListener(v -> { // Modificar el stock
+            String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
+            menuModificarStock(codigo);
+        });
+        findViewById(R.id.btRetirarProducto).setOnClickListener(v -> {
+            try {
+                String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
+                if (codigo.isEmpty()) throw new IllegalArgumentException("El código no puede estar vacío");
+
+                if (c.retirarProducto(codigo)) {
+                    // Si sale bien, informamos en el TV y limpiamos el campo
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Producto '" + codigo + "' retirado con éxito");
+                    ((EditText) findViewById(R.id.etCodigo)).setText("");
+                } else {
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: El producto no existe");
+                }
+            } catch (Exception e) {
+                ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: " + e.getMessage());
+            }
+        });
     }
+
+    public void menuModificarStock() {
+        setContentView(R.layout.activity_modificar_stock);
+        findViewById(R.id.btVolverStock).setOnClickListener(v -> menuModificar());
+
+        findViewById(R.id.btAnadirStock).setOnClickListener(v -> { //Botón Sumar (+)
+            try {
+                String codigo = ((EditText) findViewById(R.id.etCodigoStock)).getText().toString();
+                int cantidad = Integer.parseInt(((EditText) findViewById(R.id.etCantidadStock)).getText().toString());
+
+                if (c.sumarStock(codigo, cantidad)) {
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Stock añadido correctamente.");
+                } else {
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: Producto no encontrado.");
+                }
+            } catch (NumberFormatException e) {
+                ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: Introduce un número válido.");
+            }
+        });
+
+
+        findViewById(R.id.btRestarStock).setOnClickListener(v -> { //Botón Restar (-)
+            try {
+                String codigo = ((EditText) findViewById(R.id.etCodigoStock)).getText().toString();
+                int cantidad = Integer.parseInt(((EditText) findViewById(R.id.etCantidadStock)).getText().toString());
+
+                if (c.restarStock(codigo, cantidad)) {
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Stock restado correctamente.");
+                } else {
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: Producto no encontrado o stock insuficiente.");
+                }
+            } catch (NumberFormatException e) {
+                ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: Introduce un número válido.");
+            }
+        });
+
+        findViewById(R.id.btCambiarStock).setOnClickListener(v -> { // Botón Cambiar (=)
+            try {
+                String codigo = ((EditText) findViewById(R.id.etCodigoStock)).getText().toString();
+                int nuevaCantidad = Integer.parseInt(((EditText) findViewById(R.id.etCantidadStock)).getText().toString());
+
+                if (c.cambiarStockTotal(codigo, nuevaCantidad)) {
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Stock actualizado al nuevo total.");
+                } else {
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: Producto no encontrado.");
+                }
+            } catch (NumberFormatException e) {
+                ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: Introduce un número válido.");
+            }
+        });
+    }
+
     public void menuListar(){
         setContentView(R.layout.activity_listar); //Mostramos el activity correspondiente
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
