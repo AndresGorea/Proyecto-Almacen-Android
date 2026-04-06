@@ -5,17 +5,21 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.DatosActivity">
+    tools:context=".view.MainActivity">
 
     <TextView
         android:id="@+id/tvTituloDatos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:text="Gestión de Datos JSON"
+
         android:textSize="26sp"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"
+
         app:layout_constraintVertical_chainStyle="packed"
+
         app:layout_constraintBottom_toTopOf="@+id/btImportar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +30,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Importar Datos"
+
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
+
         app:layout_constraintBottom_toTopOf="@+id/btExportar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,21 +44,25 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Exportar Datos"
+
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btVolverDatos"
+
+        app:layout_constraintBottom_toTopOf="@+id/btVolver"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btImportar" />
 
     <Button
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:id="@+id/btVolverDatos"
+        android:id="@+id/btVolver"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Volver"
+
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

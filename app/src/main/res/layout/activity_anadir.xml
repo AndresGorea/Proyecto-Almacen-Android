@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.AnadirActivity">
+    tools:context=".view.MainActivity">
 
     <TextView
         android:id="@+id/tvTitulo"
@@ -30,7 +30,7 @@
         android:textSize="14sp"
         android:textStyle="bold"
 
-        app:layout_constraintBottom_toTopOf="@+id/edCodigo"
+        app:layout_constraintBottom_toTopOf="@+id/etFechaCaducidad"
         app:layout_constraintEnd_toStartOf="@+id/spTipo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
@@ -40,16 +40,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-
-        app:layout_constraintBottom_toTopOf="@+id/edCodigo"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTipo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvTipo"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitulo"
-
-        />
+        app:layout_constraintTop_toTopOf="@+id/tvTipo"/>
 
     <EditText
-        android:id="@+id/edCodigo"
+        android:id="@+id/etFechaCaducidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="14sp"
+        android:ems="15"
+        android:hint="Fecha de Caducidad"
+        android:inputType="date"
+        android:visibility="gone"
+
+
+        app:layout_constraintBottom_toTopOf="@+id/etCodigo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTipo"/>
+
+
+
+    <EditText
+        android:id="@+id/etCodigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -58,13 +74,13 @@
         android:hint="Código del Producto"
         android:inputType="text"
 
-        app:layout_constraintBottom_toTopOf="@+id/edDescripcion"
+        app:layout_constraintBottom_toTopOf="@+id/etDescripcion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spTipo" />
+        app:layout_constraintTop_toBottomOf="@+id/etFechaCaducidad" />
 
     <EditText
-        android:id="@+id/edDescripcion"
+        android:id="@+id/etDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -81,7 +97,7 @@
         app:layout_constraintBottom_toTopOf="@+id/etPrecio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edCodigo"
+        app:layout_constraintTop_toBottomOf="@+id/etCodigo"
         />
 
     <EditText
@@ -97,7 +113,7 @@
         app:layout_constraintBottom_toTopOf="@+id/etStock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edDescripcion"
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"
         />
 
     <EditText
