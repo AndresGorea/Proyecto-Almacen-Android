@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -18,7 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.politecnicomalaga.proyectoalmacen.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -202,15 +205,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modificar); //Mostramos el activity correspondiente
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
 
-        String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
-
         findViewById(R.id.btModificarDatos).setOnClickListener(v -> { //Modificar varios datos de un producto
+            String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
             menuModificarDatos(codigo);
         });
         findViewById(R.id.btModificarStock).setOnClickListener(v -> { // Modificar el stock
+            String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
             menuModificarStock(codigo);
         });
         findViewById(R.id.btRetirarProducto).setOnClickListener(v -> { //Retirar producto
+            String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
             retirarProducto(codigo);
         });
     }
@@ -291,24 +295,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listar); //Mostramos el activity correspondiente
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
 
-        findViewById(R.id.btListarTodos).setOnClickListener(v -> {
-
-            setContentView(R.layout.activity_resultado_listar);
-            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
-            listarDatos(c.listarTodo());
-        });
-
-        findViewById(R.id.btListarSinStock).setOnClickListener(v -> {
-            setContentView(R.layout.activity_resultado_listar);
-            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
-            listarDatos(c.listarSinStock());
-        });
-
-        findViewById(R.id.btListarCaducados).setOnClickListener(v -> {
-            setContentView(R.layout.activity_resultado_listar);
-            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
-            listarDatos(c.listarCaducados());
-        });
+        findViewById(R.id.btListarTodos).setOnClickListener(v -> listarDatos(c.listarTodo()));
+        findViewById(R.id.btListarSinStock).setOnClickListener(v -> listarDatos(c.listarSinStock()));
+        findViewById(R.id.btListarCaducados).setOnClickListener(v -> listarDatos(c.listarCaducados()));
+        findViewById(R.id.btListarRetirados).setOnClickListener(v -> listarDatos(c.listarRetirados()));
 
         findViewById(R.id.btListarRango).setOnClickListener(v -> {
             setContentView(R.layout.activity_listar_rango);
@@ -338,12 +328,6 @@ public class MainActivity extends AppCompatActivity {
                     ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
                 }
             });
-        });
-
-        findViewById(R.id.btListarRetirados).setOnClickListener(v -> {
-            setContentView(R.layout.activity_resultado_listar);
-            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
-            listarDatos(c.listarRetirados());
         });
 
         findViewById(R.id.btComparar).setOnClickListener(v -> {
@@ -381,7 +365,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void listarDatos(Map<String,Object> datos) {
+        setContentView(R.layout.activity_resultado_listar); //Mostramos el activity correspondiente
+        findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
 
+        List<String> listaParaMostrar = new ArrayList<>();
+
+        for (Map.Entry<String, Object> entrada : datos.entrySet()) { //Tipo de dato, iterator, contenedor, .entrySet() nos devuelva una lista de los valores
+            listaParaMostrar.add(entrada.getKey() + "= " + entrada.getValue()); //Le damos un formato legible y lo añadimos a la lista
+        }
+
+        ArrayAdapter<String> adaptador  = new ArrayAdapter<String>( //Array Adapter al igual que en el spinner
+                this,
+                android.R.layout.simple_list_item_1,
+                listaParaMostrar);
+
+        ((ListView) findViewById(R.id.lvContenidoResultado)).setAdapter(adaptador); //Caste necesario si se hace un paso
     }
 
     public void menuGestionarDatos(){
