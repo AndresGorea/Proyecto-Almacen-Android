@@ -76,10 +76,30 @@
         android:text="Cambiar Stock Total"
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btVolverStock"
+        app:layout_constraintBottom_toTopOf="@+id/tvResultado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btRestarStock" />
+
+    <TextView
+        android:id="@+id/tvResultado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Resultado:"
+        app:layout_constraintBottom_toTopOf="@+id/btVolverStock"
+        app:layout_constraintEnd_toStartOf="@+id/tvMostrarResultado"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btCambiarStock" />
+
+    <TextView
+        android:id="@+id/tvMostrarResultado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="___________________"
+        app:layout_constraintBottom_toTopOf="@+id/btVolverStock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvResultado"
+        app:layout_constraintTop_toBottomOf="@+id/btCambiarStock" />
 
     <Button
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -92,6 +112,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btCambiarStock" />
+        app:layout_constraintTop_toBottomOf="@+id/tvResultado" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

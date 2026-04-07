@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.politecnicomalaga.proyectoalmacen.R;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -150,13 +151,13 @@ public class MainActivity extends AppCompatActivity {
 
                 //Mapas
                 HashMap<String, Object> datosProducto = new HashMap<>();
-                HashMap<String, Object> atributos = new HashMap<>();
 
                 //Guardamos los atributos en el mapa de atributos
-                atributos.put("descripcion", descripcion);
-                atributos.put("precio", precioDouble);
-                atributos.put("stock", stock);
-                atributos.put("tipo", tipoP);
+                datosProducto.put("codigo", codigo);
+                datosProducto.put("descripcion", descripcion);
+                datosProducto.put("precio", precioDouble);
+                datosProducto.put("stock", stock);
+                datosProducto.put("tipo", tipoP);
 
                 //Otros datos diferentes
                 switch (tipoP) { //Utilizamos un switch por si ampliamos los tipos de productos que sea facil
@@ -165,11 +166,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case PERECEDERO:
                         String fecha = ((EditText) findViewById(R.id.etFechaCaducidad)).getText().toString();
-                        atributos.put("fecha", fecha);
+                        datosProducto.put("fecha", fecha);
                         break;
                 }
-                //Guardamos los datos con el mapa de datosProducto que el ID sea codigo producto
-                datosProducto.put(codigo, atributos);
 
                 if (esModificacion){ //Si es una modificación
                     if (c.modificarProducto(datosProducto)){ // Le pasamos los dátos al controlador
@@ -184,12 +183,12 @@ public class MainActivity extends AppCompatActivity {
                     };
                 }
             }
-            catch (IllegalArgumentException iae) {
-                String resultado = ("Error de validación: " + iae.getMessage());
-                ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
-            }
             catch (NumberFormatException nfe) {
                 String resultado = "Error: El precio y el stock deben ser números válidos";
+                ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
+            }
+            catch (IllegalArgumentException iae) {
+                String resultado = ("Error de validación: " + iae.getMessage());
                 ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
             }
             catch (Exception e) {
@@ -199,53 +198,37 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void menuAnadir(){
-        gestionarFormularios(false, null);
+    public void menuModificar(){
+        setContentView(R.layout.activity_modificar); //Mostramos el activity correspondiente
+        findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
+
+        String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
+
+        findViewById(R.id.btModificarDatos).setOnClickListener(v -> { //Modificar varios datos de un producto
+            menuModificarDatos(codigo);
+        });
+        findViewById(R.id.btModificarStock).setOnClickListener(v -> { // Modificar el stock
+            menuModificarStock(codigo);
+        });
+        findViewById(R.id.btRetirarProducto).setOnClickListener(v -> { //Retirar producto
+            retirarProducto(codigo);
+        });
     }
 
     public void menuModificarDatos(String codigo) {
         gestionarFormularios(true, codigo);
     }
 
-    public void menuModificar(){
-        setContentView(R.layout.activity_modificar); //Mostramos el activity correspondiente
-        findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
-
-
-        findViewById(R.id.btModificarDatos).setOnClickListener(v -> { //Modificar varios datos de un producto
-            String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
-            menuModificarDatos(codigo);
-        });
-
-        findViewById(R.id.btModificarStock).setOnClickListener(v -> { // Modificar el stock
-            String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
-            menuModificarStock(codigo);
-        });
-        findViewById(R.id.btRetirarProducto).setOnClickListener(v -> {
-            try {
-                String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
-                if (codigo.isEmpty()) throw new IllegalArgumentException("El código no puede estar vacío");
-
-                if (c.retirarProducto(codigo)) {
-                    // Si sale bien, informamos en el TV y limpiamos el campo
-                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Producto '" + codigo + "' retirado con éxito");
-                    ((EditText) findViewById(R.id.etCodigo)).setText("");
-                } else {
-                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: El producto no existe");
-                }
-            } catch (Exception e) {
-                ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: " + e.getMessage());
-            }
-        });
+    public void menuAnadir(){
+        gestionarFormularios(false, null);
     }
 
-    public void menuModificarStock() {
+    public void menuModificarStock(String codigo) {
         setContentView(R.layout.activity_modificar_stock);
         findViewById(R.id.btVolverStock).setOnClickListener(v -> menuModificar());
 
         findViewById(R.id.btAnadirStock).setOnClickListener(v -> { //Botón Sumar (+)
             try {
-                String codigo = ((EditText) findViewById(R.id.etCodigoStock)).getText().toString();
                 int cantidad = Integer.parseInt(((EditText) findViewById(R.id.etCantidadStock)).getText().toString());
 
                 if (c.sumarStock(codigo, cantidad)) {
@@ -261,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.btRestarStock).setOnClickListener(v -> { //Botón Restar (-)
             try {
-                String codigo = ((EditText) findViewById(R.id.etCodigoStock)).getText().toString();
                 int cantidad = Integer.parseInt(((EditText) findViewById(R.id.etCantidadStock)).getText().toString());
 
                 if (c.restarStock(codigo, cantidad)) {
@@ -276,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.btCambiarStock).setOnClickListener(v -> { // Botón Cambiar (=)
             try {
-                String codigo = ((EditText) findViewById(R.id.etCodigoStock)).getText().toString();
                 int nuevaCantidad = Integer.parseInt(((EditText) findViewById(R.id.etCantidadStock)).getText().toString());
 
                 if (c.cambiarStockTotal(codigo, nuevaCantidad)) {
@@ -290,10 +271,119 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void retirarProducto(String codigo) {
+        try {
+            if (codigo.isEmpty()) throw new IllegalArgumentException("El código no puede estar vacío");
+
+            if (c.retirarProducto(codigo)) {
+                // Si sale bien, informamos en el TV y limpiamos el campo
+                ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Producto '" + codigo + "' retirado con éxito");
+                ((EditText) findViewById(R.id.etCodigo)).setText("");
+            } else {
+                ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: El producto no existe");
+            }
+        } catch (Exception e) {
+            ((TextView) findViewById(R.id.tvMostrarResultado)).setText("Error: " + e.getMessage());
+        }
+    }
+
     public void menuListar(){
         setContentView(R.layout.activity_listar); //Mostramos el activity correspondiente
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
+
+        findViewById(R.id.btListarTodos).setOnClickListener(v -> {
+
+            setContentView(R.layout.activity_resultado_listar);
+            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
+            listarDatos(c.listarTodo());
+        });
+
+        findViewById(R.id.btListarSinStock).setOnClickListener(v -> {
+            setContentView(R.layout.activity_resultado_listar);
+            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
+            listarDatos(c.listarSinStock());
+        });
+
+        findViewById(R.id.btListarCaducados).setOnClickListener(v -> {
+            setContentView(R.layout.activity_resultado_listar);
+            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
+            listarDatos(c.listarCaducados());
+        });
+
+        findViewById(R.id.btListarRango).setOnClickListener(v -> {
+            setContentView(R.layout.activity_listar_rango);
+            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
+
+
+            findViewById(R.id.btBuscarRango).setOnClickListener(v2 -> {
+                //Guardamos los dos 2 datos cuando pulse el botón
+                try {
+
+                    Map<String,Double> rangoPrecios = new HashMap<>();
+
+                    Double precioMin= Double.parseDouble(((EditText) findViewById(R.id.etPrecioMin)).getText().toString());
+                    Double precioMax= Double.parseDouble(((EditText) findViewById(R.id.etPrecioMax)).getText().toString());
+
+                    rangoPrecios.put("precioMin",precioMin);
+                    rangoPrecios.put("precioMax",precioMax);
+
+                    listarDatos(c.listarRango(rangoPrecios));
+                }
+                catch (NumberFormatException nfe) {
+                    String resultado = "Error: El precio mínimo y máximo deben ser números válidos";
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
+                }
+                catch (Exception e) {
+                    String resultado = "Error: " + e.getMessage();
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
+                }
+            });
+        });
+
+        findViewById(R.id.btListarRetirados).setOnClickListener(v -> {
+            setContentView(R.layout.activity_resultado_listar);
+            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
+            listarDatos(c.listarRetirados());
+        });
+
+        findViewById(R.id.btComparar).setOnClickListener(v -> {
+            setContentView(R.layout.activity_listar_comparar);
+            findViewById(R.id.btVolver).setOnClickListener(v2 -> menuListar()); //Volver
+
+            findViewById(R.id.btCompararAccion).setOnClickListener(v2 -> {
+                //Guardamos los dos 2 datos cuando pulse el botón
+                try {
+
+                    Map<String,String> productos = new HashMap<>();
+
+                    String producto1= ((EditText) findViewById(R.id.etCodigo1)).getText().toString();
+                    String producto2= ((EditText) findViewById(R.id.etCodigo2)).getText().toString();
+
+                    productos.put("producto1",producto1);
+                    productos.put("producto2",producto2);
+
+                    listarDatos(c.compararProductos(productos));
+                }
+                catch (IllegalArgumentException iae) {
+                    String resultado = ("Error de validación: " + iae.getMessage());
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
+                }
+                catch (Exception e) {
+                    String resultado = "Error: " + e.getMessage();
+                    ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
+                }
+            });
+
+        });
+
+        //Botones
+        findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu());
     }
+
+    public void listarDatos(Map<String,Object> datos) {
+
+    }
+
     public void menuGestionarDatos(){
         setContentView(R.layout.activity_gestionar_datos); //Mostramos el activity correspondiente
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
