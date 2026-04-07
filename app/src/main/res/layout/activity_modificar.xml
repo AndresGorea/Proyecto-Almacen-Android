@@ -65,10 +65,24 @@
         android:text="Retirar Producto"
         app:layout_constraintWidth_percent="0.7"
         app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btVolver"
+        app:layout_constraintBottom_toTopOf="@+id/tvMostrarResultado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btModificarStock" />
+
+    <TextView
+        android:id="@+id/tvMostrarResultado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btVolver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btRetirarProducto" />
 
     <Button
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -81,6 +95,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btRetirarProducto" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMostrarResultado" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
