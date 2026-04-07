@@ -1,4 +1,4 @@
-package com.politecnicomalaga.proyectoalmacen.view;
+/*package com.politecnicomalaga.proyectoalmacen.view;
 import java.util.Scanner;
 import com.politecnicomalaga.proyectoalmacen.controller.*;
 
@@ -50,6 +50,8 @@ import com.politecnicomalaga.proyectoalmacen.controller.*;
  *  Cada opción de menú: 1.25 puntos. Total: 10p. Aprobar: 5p.
  *  
  */
+
+/*
 public class Main
 {
     // Clase principal de la vista
@@ -327,3 +329,4 @@ public class Main
         return sc.nextLine();
     }
 }
+*/

@@ -23,7 +23,6 @@ public class Producto implements Comparable<Producto>{
     private double precio;
     private int stock;
     protected static final Gson gson = new Gson();
-    protected static final JsonObject jsonObject = new JsonObject();
 
     // Constructor
     public Producto(String codigoProducto, String descripcion, double precio, int stock) {
