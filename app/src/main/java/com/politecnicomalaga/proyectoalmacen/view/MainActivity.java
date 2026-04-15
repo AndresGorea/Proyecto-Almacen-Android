@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.politecnicomalaga.proyectoalmacen.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,10 +28,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     public static Controlador c = Controlador.getSingleton();
-    public enum TipoProducto {
-        NORMAL, PERECEDERO
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,10 +109,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ///Mostramos las opciones para el spinner
-        ArrayAdapter<TipoProducto> adapter = new ArrayAdapter<>( // Arrayadapter coge una colección de datos y le pasa cada dato a un list view o spinner para que lo muestren
+        String[] tipoProducto = {"Normal","Perecedero"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>( // Arrayadapter coge una colección de datos y le pasa cada dato a un list view o spinner para que lo muestren
                 this, //Le damos el contexto (esta clase this)
                 android.R.layout.simple_spinner_item, //Le damos el recurso al cual le pasamos los datos
-                TipoProducto.values());
+                tipoProducto);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Le damos un diseño bonito al desplegable
         ((Spinner) findViewById(R.id.spTipo)).setAdapter(adapter); //Buscamos el spinner y le damos los valores del adapter
 
@@ -126,12 +125,12 @@ public class MainActivity extends AppCompatActivity {
         spTipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //Interfaz comprueba el spinner cada vez que se toca
             @Override //Cuando se toca verificamos el valor de tipoP y mostramos o no la fecha
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TipoProducto tipoP = (TipoProducto) spTipo.getSelectedItem();
+                String tipoP = spTipo.getSelectedItem().toString();
                 switch (tipoP) {
-                    case NORMAL:
+                    case "Normal":
                         etFechaCaducidad.setVisibility(View.GONE);
                         break;
-                    case PERECEDERO:
+                    case "Perecedero":
                         etFechaCaducidad.setVisibility(View.VISIBLE);
                         break;
                 }
@@ -150,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 String descripcion = ((EditText) findViewById(R.id.etDescripcion)).getText().toString();
                 Double precioDouble = Double.parseDouble(((EditText) findViewById(R.id.etPrecio)).getText().toString());
                 int stock = Integer.parseInt(((EditText) findViewById(R.id.etStock)).getText().toString());
-                TipoProducto tipoP = (TipoProducto) spTipo.getSelectedItem();
+                String tipoP = spTipo.getSelectedItem().toString();
 
                 //Mapas
                 HashMap<String, Object> datosProducto = new HashMap<>();
@@ -164,10 +163,10 @@ public class MainActivity extends AppCompatActivity {
 
                 //Otros datos diferentes
                 switch (tipoP) { //Utilizamos un switch por si ampliamos los tipos de productos que sea facil
-                    case NORMAL:
+                    case "Normal":
                         //No necesitamos más datos
                         break;
-                    case PERECEDERO:
+                    case "Perecedero":
                         String fecha = ((EditText) findViewById(R.id.etFechaCaducidad)).getText().toString();
                         datosProducto.put("fecha", fecha);
                         break;
