@@ -1,6 +1,8 @@
 package com.politecnicomalaga.proyectoalmacen.view;
 
 import com.politecnicomalaga.proyectoalmacen.controller.*;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,7 +21,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.politecnicomalaga.proyectoalmacen.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,39 +47,31 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Menu:
-     *
      * 1. Añadir Producto
      *     Tipo de Producto (Lista)
      *     Código Válido
      *     Descripción
      *     Precio
      *     Stock
-     *
      * 2. Modificar un Producto
      *     Introducir el código válido y buscar un producto
-     *
      *     a. Modificar datos
      *         Tipo de producto, (Puede haber perdida de datos / Confirmación)
      *         Un código válido Nuevo
      *         Descripción nueva
      *         Stock total (Redundante), es necesario?, mejor dejarlo por si se quiere modificar varios datos.
-     *
      *     b. Modificar Stock
      *         Añadir Stock
      *         Restar Stock
      *         Cambiar Stock total.
-     *
      *     c. Retirar Producto y su Stock (Más una Confirmación)
-     *
      * 3. Listar Productos (Seriá interesante poder exportar a json todos cuando muestre la salida)
-     *
      *     a. Listar Todos los productos
      *     b. Mostrar Productos sin Stock
      *     c. Mostrar productos caducados
      *     d. Mostrar productos en rango de precio
      *     e. Mostrar productos retirados
      *     f. Comparar Productos
-     *
      * 4. Gestión de Datos
      *     a. Importar Datos desde Fichero Json
      *     b. Exportar Datos a Fichero Json
@@ -93,11 +86,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btGestionarDatos).setOnClickListener(v -> menuGestionarDatos());
     }
 
+    @SuppressLint("SetTextI18n")
     public void gestionarFormularios(boolean esModificacion, String codigoRecibido) {
         setContentView(R.layout.activity_anadir); //Mostramos el activity correspondiente
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
 
-        if (esModificacion){ //Si es uin modificación usamos la misma plantilla cambiando alunos datos
+        if (esModificacion){ //Si es uin modificación usamos la misma plantilla cambiando alumnos datos
             ((TextView) findViewById(R.id.tvTitulo)).setText("Modificar Producto");
             ((Button) findViewById(R.id.btAnadir)).setText("Guardar Cambios");
 
@@ -111,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         ///Mostramos las opciones para el spinner
         String[] tipoProducto = {"Normal","Perecedero"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>( // Arrayadapter coge una colección de datos y le pasa cada dato a un list view o spinner para que lo muestren
+        ArrayAdapter<String> adapter = new ArrayAdapter<>( // Array adapter coge una colección de datos y le pasa cada dato a un list view o spinner para que lo muestren
                 this, //Le damos el contexto (esta clase this)
                 android.R.layout.simple_spinner_item, //Le damos el recurso al cual le pasamos los datos
                 tipoProducto);
@@ -119,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
         ((Spinner) findViewById(R.id.spTipo)).setAdapter(adapter); //Buscamos el spinner y le damos los valores del adapter
 
         ///Verificamos qué tipo de "sp" hay seleccionado para mostrar o no el etFechaCaducidad
-        Spinner spTipo = (Spinner) findViewById(R.id.spTipo);
-        EditText etFechaCaducidad = (EditText) findViewById(R.id.etFechaCaducidad);
+        Spinner spTipo = findViewById(R.id.spTipo);
+        EditText etFechaCaducidad = findViewById(R.id.etFechaCaducidad);
 
         spTipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //Interfaz comprueba el spinner cada vez que se toca
             @Override //Cuando se toca verificamos el valor de tipoP y mostramos o no la fecha
@@ -147,12 +141,12 @@ public class MainActivity extends AppCompatActivity {
                 //Almacenamos los datos básicos
                 String codigo = ((EditText) findViewById(R.id.etCodigo)).getText().toString();
                 String descripcion = ((EditText) findViewById(R.id.etDescripcion)).getText().toString();
-                Double precioDouble = Double.parseDouble(((EditText) findViewById(R.id.etPrecio)).getText().toString());
-                int stock = Integer.parseInt(((EditText) findViewById(R.id.etStock)).getText().toString());
+                String precioDouble = ((EditText) findViewById(R.id.etPrecio)).getText().toString();
+                String stock = ((EditText) findViewById(R.id.etStock)).getText().toString();
                 String tipoP = spTipo.getSelectedItem().toString();
 
                 //Mapas
-                HashMap<String, Object> datosProducto = new HashMap<>();
+                HashMap<String, String> datosProducto = new HashMap<>();
 
                 //Guardamos los atributos en el mapa de atributos
                 datosProducto.put("codigo", codigo);
@@ -162,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 datosProducto.put("tipo", tipoP);
 
                 //Otros datos diferentes
-                switch (tipoP) { //Utilizamos un switch por si ampliamos los tipos de productos que sea facil
+                switch (tipoP) { //Utilizamos un switch por si ampliamos los tipos de productos que sea fácil
                     case "Normal":
                         //No necesitamos más datos
                         break;
@@ -176,13 +170,13 @@ public class MainActivity extends AppCompatActivity {
                     if (c.modificarProducto(datosProducto)){ // Le pasamos los dátos al controlador
                         String resultado = ("Producto módificado con éxito");
                         ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
-                    };
+                    }
                 }
                 else {
                     if (c.addProducto(datosProducto)){ // Le pasamos los dátos al controlador
                         String resultado = ("Producto añadido con éxito");
                         ((TextView) findViewById(R.id.tvMostrarResultado)).setText(resultado);
-                    };
+                    }
                 }
             }
             catch (NumberFormatException nfe) {
@@ -226,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
         gestionarFormularios(false, null);
     }
 
+    @SuppressLint("SetTextI18n")
     public void menuModificarStock(String codigo) {
         setContentView(R.layout.activity_modificar_stock);
         findViewById(R.id.btVolverStock).setOnClickListener(v -> menuModificar());
@@ -274,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     public void retirarProducto(String codigo) {
         try {
             if (codigo.isEmpty()) throw new IllegalArgumentException("El código no puede estar vacío");
@@ -363,17 +359,17 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu());
     }
 
-    public void listarDatos(Map<String,Object> datos) {
+    public void listarDatos(Map<String,String> datos) {
         setContentView(R.layout.activity_resultado_listar); //Mostramos el activity correspondiente
         findViewById(R.id.btVolver).setOnClickListener(v -> mainMenu()); //Volver
 
         List<String> listaParaMostrar = new ArrayList<>();
 
-        for (Map.Entry<String, Object> entrada : datos.entrySet()) { //Tipo de dato, iterator, contenedor, .entrySet() nos devuelva una lista de los valores
+        for (Map.Entry<String, String> entrada : datos.entrySet()) { //Tipo de dato, iterator, contenedor, .entrySet() nos devuelva una lista de los valores
             listaParaMostrar.add(entrada.getKey() + "= " + entrada.getValue()); //Le damos un formato legible y lo añadimos a la lista
         }
 
-        ArrayAdapter<String> adaptador  = new ArrayAdapter<String>( //Array Adapter al igual que en el spinner
+        ArrayAdapter<String> adaptador  = new ArrayAdapter<>( //Array Adapter al igual que en el spinner
                 this,
                 android.R.layout.simple_list_item_1,
                 listaParaMostrar);
